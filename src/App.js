@@ -44,34 +44,39 @@ function App() {
     setTodoList((p) => filterFunction(p, id));
     setsearchResults((p) => filterFunction(p, id));
   };
+
   return (
     <>
       <Header setsearchResults={setsearchResults} todoList={todoList} />
       <NewToDo saveToDoHandler={saveToDoHandler} />
       <MainContainer>
         <ToDoContainer title='ToDo'>
-          {searchResults
-            .filter((list) => !list.isCompleted)
-            .map((l) => (
-              <ToDoCard
-                list={l}
-                key={l.id}
-                completeHandler={completeHandler}
-                deleteHandler={deleteHandler}
-              />
-            ))}
+          {searchResults.filter((list) => !list.isCompleted).length > 1
+            ? searchResults
+                .filter((list) => !list.isCompleted)
+                .map((l) => (
+                  <ToDoCard
+                    list={l}
+                    key={l.id}
+                    completeHandler={completeHandler}
+                    deleteHandler={deleteHandler}
+                  />
+                ))
+            : 'No pending ToDos'}
         </ToDoContainer>
         <ToDoContainer title='Completed'>
-          {searchResults
-            .filter((list) => list.isCompleted)
-            .map((l) => (
-              <ToDoCard
-                list={l}
-                key={l.id}
-                completeHandler={completeHandler}
-                deleteHandler={deleteHandler}
-              />
-            ))}
+          {searchResults.filter((list) => list.isCompleted).length > 1
+            ? searchResults
+                .filter((list) => list.isCompleted)
+                .map((l) => (
+                  <ToDoCard
+                    list={l}
+                    key={l.id}
+                    completeHandler={completeHandler}
+                    deleteHandler={deleteHandler}
+                  />
+                ))
+            : 'No completed ToDos'}
         </ToDoContainer>
       </MainContainer>
       <Footer />
