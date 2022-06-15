@@ -5,17 +5,14 @@ function Header({ setsearchResults, todoList }) {
   const [searchText, setSearchText] = useState('');
   const inputStyle = {
     textAlign: 'center',
-    width: '30%',
     padding: '1rem 0',
-    margin: '1rem 0rem',
+    width: '20rem',
+    margin: '0 0rem',
     border: 'none',
     borderRadius: '2rem',
   };
   const searchIcon = {
-    position: 'absolute',
-    paddingRight: '3rem',
-    top: '4rem',
-    right: '25rem',
+    color: 'white',
   };
   const searchHandler = (event) => {
     const text = event.target.value;
@@ -32,13 +29,11 @@ function Header({ setsearchResults, todoList }) {
   };
 
   return (
-    <header style={{ textAlign: 'center', margin: '2rem' }}>
-      <h1 style={{ display: 'inline-block', marginLeft: '32%' }}>
-        My ToDo List
-      </h1>
-      <span style={{ marginLeft: '6rem' }}>
+    <header style={{ textAlign: 'center', margin: '2rem', display: 'flex' }}>
+      <h1 style={{ margin: '0 5% 0 30%' }}>My ToDo List</h1>
+      <div style={{ display: 'flex' }}>
         <input
-          type='search'
+          type='text'
           placeholder='search ToDo'
           style={inputStyle}
           value={searchText}
@@ -47,7 +42,7 @@ function Header({ setsearchResults, todoList }) {
           }}
         />
         <FindInPageIcon fontSize='large' sx={searchIcon} />
-      </span>
+      </div>
     </header>
   );
 }
