@@ -20,7 +20,6 @@ function NewToDo({ saveToDoHandler }) {
     setDetails((p) => ({ ...p, description }));
   };
   const addNewToDoHandler = () => {
-    console.log(details);
     saveToDoHandler(details);
     setDetails({ title: '', description: '' });
   };

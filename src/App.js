@@ -9,6 +9,7 @@ import NewToDo from './components/new-todo/NewToDo';
 
 function App() {
   const [todoList, setTodoList] = useState(data);
+  const [searchResults, setsearchResults] = useState(data);
   const saveToDoHandler = (toDo) => {
     setTodoList((prev) => {
       return [
@@ -20,21 +21,36 @@ function App() {
         },
       ];
     });
+    setsearchResults((prev) => {
+      return [
+        ...prev,
+        {
+          ...toDo,
+          id: todoList.length + 2,
+          date: new Date().toLocaleDateString(),
+        },
+      ];
+    });
+  };
+  const filterFunction = (list, id) => {
+    return list.filter((l) => id !== l.id);
   };
   // completeHandler does both mark as complete and uncomplete function
   const completeHandler = (list) => {
-    setTodoList((p) => [...p.filter((l) => l.id !== list.id), list]);
+    setTodoList((p) => [...filterFunction(p, list.id), list]);
+    setsearchResults((p) => [...filterFunction(p, list.id), list]);
   };
   const deleteHandler = (id) => {
-    setTodoList((p) => p.filter((l) => l.id !== id));
+    setTodoList((p) => filterFunction(p, id));
+    setsearchResults((p) => filterFunction(p, id));
   };
   return (
     <>
-      <Header />
+      <Header setsearchResults={setsearchResults} todoList={todoList} />
       <NewToDo saveToDoHandler={saveToDoHandler} />
       <MainContainer>
         <ToDoContainer title='ToDo'>
-          {todoList
+          {searchResults
             .filter((list) => !list.isCompleted)
             .map((l) => (
               <ToDoCard
@@ -46,7 +62,7 @@ function App() {
             ))}
         </ToDoContainer>
         <ToDoContainer title='Completed'>
-          {todoList
+          {searchResults
             .filter((list) => list.isCompleted)
             .map((l) => (
               <ToDoCard
