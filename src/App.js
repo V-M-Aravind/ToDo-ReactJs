@@ -21,7 +21,7 @@ function App() {
         {
           ...toDo,
           id: todoList.length + 2,
-          date: new Date().toLocaleDateString(),
+          date: () => new Date().toLocaleDateString(),
         },
       ];
     });
@@ -36,34 +36,34 @@ function App() {
   const deleteHandler = (id) => {
     setTodoList((p) => filterFunction(p, id));
   };
-  const completedList = searchResults
-    .filter((list) => list.isCompleted)
-    .map((l) => (
-      <ToDoCard
-        list={l}
-        key={l.id}
-        completeHandler={completeHandler}
-        deleteHandler={deleteHandler}
-      />
-    ));
-  const nonCompletedList = searchResults
-    .filter((list) => !list.isCompleted)
-    .map((l) => (
-      <ToDoCard
-        list={l}
-        key={l.id}
-        completeHandler={completeHandler}
-        deleteHandler={deleteHandler}
-      />
-    ));
-  console.log('main app');
+  const listRenderer = (flag) => {
+    return searchResults.length > 0
+      ? searchResults
+          .filter((list) => (flag ? list.isCompleted : !list.isCompleted))
+          .map((l) => (
+            <ToDoCard
+              list={l}
+              key={l.id}
+              completeHandler={completeHandler}
+              deleteHandler={deleteHandler}
+            />
+          ))
+      : null;
+  };
+  const completedList = listRenderer(true);
+  const nonCompletedList = listRenderer(false);
+
   return (
     <>
       <Header setsearchResults={setsearchResults} todoList={todoList} />
       <NewToDo saveToDoHandler={saveToDoHandler} />
       <MainContainer>
-        <ToDoContainer title='ToDo'>{nonCompletedList}</ToDoContainer>
-        <ToDoContainer title='Completed'>{completedList}</ToDoContainer>
+        <ToDoContainer title='ToDo'>
+          {nonCompletedList ? nonCompletedList : 'no pending ToDos'}
+        </ToDoContainer>
+        <ToDoContainer title='Completed'>
+          {completedList ? completedList : 'no completed list'}
+        </ToDoContainer>
       </MainContainer>
       <Footer />
     </>

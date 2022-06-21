@@ -24,7 +24,7 @@ function Header({ setsearchResults, todoList }) {
     }
     console.log('text is ' + text);
     const results = todoList.filter((t) =>
-      t.description.toLowerCase().includes(text.toLowerCase())
+      Object.values(t).join(' ').toLowerCase().includes(text.toLowerCase())
     );
     console.log(results);
     setsearchResults(results);
