@@ -15,17 +15,19 @@ function Header({ setsearchResults, todoList }) {
     color: 'white',
   };
   const searchHandler = (event) => {
+    console.log();
     const text = event.target.value;
     setSearchText(text);
     if (text.length < 1) {
       setsearchResults(todoList);
-    } else {
-      setsearchResults((p) => {
-        return p.filter((t) =>
-          Object.values(t).join(' ').toLowerCase().includes(text.toLowerCase())
-        );
-      });
+      return;
     }
+    console.log('text is ' + text);
+    const results = todoList.filter((t) =>
+      t.description.toLowerCase().includes(text.toLowerCase())
+    );
+    console.log(results);
+    setsearchResults(results);
   };
 
   return (
@@ -37,9 +39,7 @@ function Header({ setsearchResults, todoList }) {
           placeholder='search ToDo'
           style={inputStyle}
           value={searchText}
-          onChange={(event) => {
-            searchHandler(event);
-          }}
+          onChange={searchHandler}
         />
         <FindInPageIcon fontSize='large' sx={searchIcon} />
       </div>
